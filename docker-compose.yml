@@ -1,0 +1,56 @@
+---
+version: "2"
+services:
+  boinc1:
+    build:
+      context: boinc_endpoint/
+      dockerfile: "Dockerfile.boinc"
+    image: "cep-boinc:latest"
+    environment:
+      servername: "cleanenergy.worldcommunitygrid.org"
+      ssl_cert: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem"
+      ssl_key: "/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem"
+      ssl_chain: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem"
+      error_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_error_ssl.log"
+      custom_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_access_ssl.log"
+    labels:
+      edu.harvard.fas.rc.description: "AAG CEP boinc endpoint container"
+      edu.harvard.fas.rc.customer: 'Aspuru-Guzik Group, CCB'
+      edu.harvard.fas.rc.type: "web"
+      edu.harvard.fas.rc.database: "false"
+      edu.harvard.fas.rc.ticket: "99999999"
+    #network_mode: host or bridge? not sure here
+    volumes:
+      - /tmp:/var/www/upload
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.crt.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.key.pem:/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.interm.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem
+      - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
+    ports:
+      - 8443:443
+  boinc2:
+    depends_on:
+      - boinc1
+    image: "cep-boinc:latest"
+    environment:
+      servername: "cleanenergy.worldcommunitygrid.org"
+      ssl_cert: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem"
+      ssl_key: "/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem"
+      ssl_chain: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem"
+      error_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_error_ssl.log"
+      custom_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_access_ssl.log"
+    labels:
+      edu.harvard.fas.rc.description: "AAG CEP boinc endpoint container"
+      edu.harvard.fas.rc.customer: 'Aspuru-Guzik Group, CCB'
+      edu.harvard.fas.rc.type: "web"
+      edu.harvard.fas.rc.database: "false"
+      edu.harvard.fas.rc.ticket: "99999999"
+    #network_mode: host or bridge? not sure here
+    volumes:
+      - /tmp:/var/www/upload
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.crt.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.key.pem:/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.interm.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem
+      - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
+    ports:
+      - 8444:443

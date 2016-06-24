@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<boinc>
+  <config>
+    <upload_dir>
+        /var/www/upload
+    </upload_dir>
+    <uldl_dir_fanout>
+        1024
+    </uldl_dir_fanout>
+    <ignore_upload_certificates/>
+  </config>
+</boinc>
