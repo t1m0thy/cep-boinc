@@ -19,8 +19,9 @@ RUN yum install -y deltarpm epel-release wget mod_fcgid mod_ssl mariadb-devel.x8
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 && \
     chmod +x /usr/local/bin/dumb-init
 
-COPY config.xml /var/www/config.xml
-COPY file_upload_handler /var/www/cgi-bin/file_upload_handler.cgi
+RUN wget -O /var/www/cgi-bin/file_upload_handler.cgi https://raw.githubusercontent.com/fasrc/boinc_uploader_centos7/master/file_upload_handler && \
+    wget -O /var/www/config.xml https://raw.githubusercontent.com/fasrc/boinc_uploader_centos7/master/config.xml
+    chmod +x /var/www/cgi-bin/file_upload_handler.cgi
 
 EXPOSE 443
 
