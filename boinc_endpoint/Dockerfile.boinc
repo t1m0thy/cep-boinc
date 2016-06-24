@@ -20,7 +20,7 @@ RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/
     chmod +x /usr/local/bin/dumb-init
 
 RUN wget -O /var/www/cgi-bin/file_upload_handler.cgi https://raw.githubusercontent.com/fasrc/boinc_uploader_centos7/master/file_upload_handler && \
-    wget -O /var/www/config.xml https://raw.githubusercontent.com/fasrc/boinc_uploader_centos7/master/config.xml
+    wget -O /var/www/config.xml https://raw.githubusercontent.com/fasrc/boinc_uploader_centos7/master/config.xml && \
     chmod +x /var/www/cgi-bin/file_upload_handler.cgi
 
 EXPOSE 443
