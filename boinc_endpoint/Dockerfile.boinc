@@ -1,0 +1,27 @@
+FROM centos:latest
+
+MAINTAINER FAS Research Computing <rchelp@rc.fas.harvard.edu>
+
+ENV servername insert.servername.here
+ENV error_log /var/log/httpd/insert.servername.here_error_ssl.log
+ENV custom_log /var/log/httpd/insert.servername.here_access_ssl.log
+ENV ssl_cert /etc/pki/tls/certs/insert.servername.here.crt.pem
+ENV ssl_key /etc/pki/tls/private/insert.servername.here.key.pem
+ENV ssl_chain /etc/pki/tls/certs/insert.servername.here.interm.pem
+
+RUN yum install -y deltarpm epel-release wget mod_fcgid mod_ssl mariadb-devel.x86_64 mariadb-libs.x86_64 fcgi-devel && \
+    yum update -y && \
+    mkdir -p /var/www/upload && chown -R apache:apache /var/www/ && chmod 0755 /var/www /var/www/upload && \
+    mkdir -p /etc/pki/tls/certs /etc/pki/tls/private && \
+    rm -rf /var/cache/yum/* /usr/share/doc/* && \
+    yum clean all
+
+RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 && \
+    chmod +x /usr/local/bin/dumb-init
+
+COPY config.xml /var/www/config.xml
+COPY file_upload_handler /var/www/cgi-bin/file_upload_handler.cgi
+
+EXPOSE 443
+
+ENTRYPOINT [ "/usr/local/bin/dumb-init", "/usr/sbin/httpd", "-DFOREGROUND" ]
