@@ -8,9 +8,6 @@ services:
     image: "cep-boinc:latest"
     environment:
       servername: "cleanenergy.worldcommunitygrid.org"
-      ssl_cert: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem"
-      ssl_key: "/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem"
-      ssl_chain: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem"
       error_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_error_ssl.log"
       custom_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_access_ssl.log"
     labels:
@@ -22,21 +19,15 @@ services:
     #network_mode: host or bridge? not sure here
     volumes:
       - /tmp:/var/www/upload
-      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.crt.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem
-      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.key.pem:/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem
-      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.interm.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
-    ports:
-      - 8443:443
+    expose:
+      - 443
   boinc2:
     depends_on:
       - boinc1
     image: "cep-boinc:latest"
     environment:
       servername: "cleanenergy.worldcommunitygrid.org"
-      ssl_cert: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem"
-      ssl_key: "/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem"
-      ssl_chain: "/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem"
       error_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_error_ssl.log"
       custom_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_access_ssl.log"
     labels:
@@ -48,9 +39,32 @@ services:
     #network_mode: host or bridge? not sure here
     volumes:
       - /tmp:/var/www/upload
-      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.crt.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.crt.pem
-      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.key.pem:/etc/pki/tls/private/cleanenergy.worldcommunitygrid.org.key.pem
-      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.interm.pem:/etc/pki/tls/certs/cleanenergy.worldcommunitygrid.org.interm.pem
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
+    expose:
+      - 443
+  haproxy:
+    image: haproxy:latest
+    environment:
+      ssl_cert_combined: "/opt/ssl/cleanenergy.worldcommunitygrid.org.combined.pem"
+      admin: "administrator"
+      password: "oQueiSh3choo1Xio"
+    labels:
+      edu.harvard.fas.rc.description: "haproxy web frontend"
+      edu.harvard.fas.rc.customer: 'Aspuru-Guzik Group, CCB'
+      edu.harvard.fas.rc.type: "web"
+      edu.harvard.fas.rc.database: "false"
+      edu.harvard.fas.rc.ticket: "99999999"
+    links:
+      - boinc1
+      - boinc2
+    volumes:
+      - ./boinc_endpoint/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.combined.pem:/opt/ssl/cleanenergy.worldcommunitygrid.org.combined.pem
     ports:
-      - 8444:443
+      - 8443:443
+      - 8070:70
+    expose:
+      - 88888888443
+      - 8070
+
+

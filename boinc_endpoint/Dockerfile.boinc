@@ -14,7 +14,8 @@ RUN yum install -y deltarpm epel-release wget mod_fcgid mod_ssl mariadb-devel.x8
     mkdir -p /var/www/upload && chown -R apache:apache /var/www/ && chmod 0755 /var/www /var/www/upload && \
     mkdir -p /etc/pki/tls/certs /etc/pki/tls/private && \
     rm -rf /var/cache/yum/* /usr/share/doc/* && \
-    yum clean all
+    yum clean all && \
+    cd /etc/httpd/conf.d && rm -f autoindex.conf userdir.conf autoindex.conf welcome.conf
 
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 && \
     chmod +x /usr/local/bin/dumb-init
