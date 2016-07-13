@@ -29,8 +29,7 @@ RUN \
     ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts && \
     git clone git@bitbucket.org:aspuru-guzik/a2g2.git /root/a2g2 && \
     cd /root/a2g2 && \
-    #git checkout tags/v0.1
-    git checkout master
+    git checkout wcgrid_stable
 
 # setup environment
 
