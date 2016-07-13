@@ -1,0 +1,21 @@
+This is a docker container spec to the run the a2g2 djangochem toolset.  
+
+IMPORTANT:
+To get this to work, you need the id_rsa and id_rsa.pub deployment keys of the a2g2 repo. 
+
+You can control it with a set of environment variables
+- DJANGO_SETTINGS_MODULE: default 'djangochem.settings.docker'  
+    - this docker.py settings file enables the 4 DB_* env variables set below.  Most likely, you want to leave it as is 
+
+- DB_NAME: database name
+- DB_USER: database user
+- DB_PASSWORD: database password
+- DB_HOST: the hostname of the psotgres server
+- DJANGO_COMMAND: the string to pass after ./manage.py.  For example "test wcgrid" tests the wcgrid code.   
+
+
+- to run tests:
+
+        docker-compose -f compose-test.yml up
+
+    this compose sets up a postgres server and hooks the django docker to it to run the test suite

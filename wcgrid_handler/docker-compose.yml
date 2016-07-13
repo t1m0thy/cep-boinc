@@ -1,0 +1,14 @@
+django:
+  build: .
+  links:
+    - db
+  environment:
+    DJANGO_SETTINGS_MODULE: 'djangochem.settings.docker'
+    DB_NAME: postgres
+    DB_USER: postgres
+    DB_PASSWORD: postgres
+    DB_HOST: db
+    DJANGO_COMMAND: test wcgrid
+
+db:
+  image: postgres

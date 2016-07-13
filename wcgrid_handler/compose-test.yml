@@ -1,0 +1,17 @@
+django:
+  build: .
+  links:
+    - db
+  environment:
+    # this shouldn't likely change as it enables the use of
+    # the DB_* env variables below
+    DJANGO_SETTINGS_MODULE: 'djangochem.settings.docker'  
+    DB_NAME: postgres
+    DB_USER: postgres
+    DB_PASSWORD: postgres
+    DB_HOST: db
+    # this is the command passed to ./manage.py
+    DJANGO_COMMAND: test wcgrid  
+
+db:
+  image: postgres
