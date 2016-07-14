@@ -1,0 +1,8 @@
+  wcgrid_test:
+    extends:
+      file: docker-compose.yml
+      service: wcgrid_handler
+    environment:
+      # these are just used locally to avoid typos
+      # this is the command passed to ./manage.py
+      DJANGO_COMMAND: test wcgrid

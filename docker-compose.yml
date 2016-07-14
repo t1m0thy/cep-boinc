@@ -1,5 +1,5 @@
 ---
-version: "2"
+version: "3"
 services:
   boinc1:
     build:
@@ -18,7 +18,7 @@ services:
       edu.harvard.fas.rc.ticket: "99999999"
     #network_mode: host or bridge? not sure here
     volumes:
-      - /tmp:/var/www/upload
+      - /var/local/upload:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
     expose:
       - 443
@@ -38,7 +38,7 @@ services:
       edu.harvard.fas.rc.ticket: "99999999"
     #network_mode: host or bridge? not sure here
     volumes:
-      - /tmp:/var/www/upload
+      - /var/local/upload:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
     expose:
       - 443
