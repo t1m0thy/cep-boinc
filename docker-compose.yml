@@ -1,5 +1,5 @@
 ---
-version: "3"
+version: "2"
 services:
   boinc1:
     build:
@@ -66,5 +66,14 @@ services:
     expose:
       - 88888888443
       - 8070
+
+services:
+  wcgrid_handler:
+    build:
+      context: wcgrid_handler/
+      dockerfile: "Dockerfile"
+    image: "wcgrid-handler:latest"
+    environment:
+      DJANGO_SETTINGS_MODULE: 'djangochem.settings.docker'
 
 
