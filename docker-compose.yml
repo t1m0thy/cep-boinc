@@ -21,7 +21,7 @@ services:
       - /tmp:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
     expose:
-      - 443
+      - 80
   boinc2:
     depends_on:
       - boinc1
@@ -40,7 +40,7 @@ services:
       - /tmp:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
     expose:
-      - 443
+      - 80
   haproxy:
     image: haproxy:latest
     environment:
@@ -66,5 +66,3 @@ services:
     expose:
       - 443
       - 70
-
-
