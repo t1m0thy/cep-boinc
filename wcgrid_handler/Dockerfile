@@ -36,7 +36,7 @@ RUN \
 WORKDIR /root/a2g2/environments/a2g2
 RUN yum -y install freetype freetype-devel libpng-devel
 RUN pip install --upgrade pip
-RUN ./setup_env.sh
+RUN ./setup_env.sh requirements-min.txt
 
 WORKDIR /root/a2g2/djangochem
 ADD run.sh /root/a2g2/djangochem
