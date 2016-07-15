@@ -1,8 +1,24 @@
-  wcgrid_test:
-    extends:
-      file: docker-compose.yml
-      service: wcgrid_handler
+version: "2"
+services:
+  wcgrid_handler:
+    links: 
+      - db
     environment:
       # these are just used locally to avoid typos
       # this is the command passed to ./manage.py
       DJANGO_COMMAND: test wcgrid
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+    volumes:
+      - ./scratch/output_cep2:/var/host/completed_md5 # $completed_md5
+      - ./scratch/upload:/var/host/upload # $upload
+      - ./scratch/cleaned_wcgrid_data:/var/host/cleaned_wcgrid_data # $clean
+      - ./scratch/dupe_wcgrid_data:/var/host/dupe_wcgrid_data # $dupes
+      - ./scratch/trash_wcgrid_data:/var/host/trash_wcgrid_data # $trash
+
+  db:
+    image: postgres
+
+    

@@ -75,5 +75,30 @@ services:
     image: "wcgrid-handler:latest"
     environment:
       DJANGO_SETTINGS_MODULE: 'djangochem.settings.docker'
+      # these are just used to build the command below
+      trash: /var/host/trash_wcgrid_data
+      dupes: /var/host/dupe_wcgrid_data
+      clean: /var/host/cleaned_wcgrid_data
+      processed_md5: /var/host/processed_md5
+      completed_md5: /var/host/completed_md5
+      upload: /var/host/upload
+      # this is the command passed to ./manage.py
+
+
+    volumes:
+      # I wanted this to work where I could use the env vars from above
+      # but I cant get it to work. :(
+      # - /cep/wcgrid/output_cep2:$completed_md5
+      # - /var/local/upload:$upload
+      # - /var/local/cleaned_wcgrid_data:$clean
+      # - /var/local/dupe_wcgrid_data:$dupes
+      # - /var/local/trash_wcgrid_data:$trash
+
+      # EXPECTED ACTUAL PATHS on Prod
+      - /cep/wcgrid/output_cep2:/var/host/completed_md5 # $completed_md5
+      - /var/local/upload:/var/host/upload # $upload
+      - /var/local/cleaned_wcgrid_data:/var/host/cleaned_wcgrid_data # $clean
+      - /var/local/dupe_wcgrid_data:/var/host/dupe_wcgrid_data # $dupes
+      - /var/local/trash_wcgrid_data:/var/host/trash_wcgrid_data # $trash
 
 
