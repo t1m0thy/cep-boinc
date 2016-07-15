@@ -36,7 +36,6 @@ services:
       edu.harvard.fas.rc.type: "web"
       edu.harvard.fas.rc.database: "false"
       edu.harvard.fas.rc.ticket: "99999999"
-    #network_mode: host or bridge? not sure here
     volumes:
       - /tmp:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
@@ -48,6 +47,7 @@ services:
       ssl_cert_combined: "/opt/ssl/cleanenergy.worldcommunitygrid.org.combined.pem"
       admin: "administrator"
       password: "oQueiSh3choo1Xio"
+    network_mode: host
     labels:
       edu.harvard.fas.rc.description: "haproxy web frontend"
       edu.harvard.fas.rc.customer: 'Aspuru-Guzik Group, CCB'
@@ -61,10 +61,10 @@ services:
       - ./boinc_endpoint/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.combined.pem:/opt/ssl/cleanenergy.worldcommunitygrid.org.combined.pem
     ports:
-      - 8443:443
-      - 8070:70
+      - 443:443
+      - 70:70
     expose:
-      - 8443
-      - 8070
+      - 443
+      - 70
 
 
