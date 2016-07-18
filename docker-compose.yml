@@ -47,7 +47,6 @@ services:
       ssl_cert_combined: "/opt/ssl/cleanenergy.worldcommunitygrid.org.combined.pem"
       admin: "administrator"
       password: "oQueiSh3choo1Xio"
-    network_mode: host
     labels:
       edu.harvard.fas.rc.description: "haproxy web frontend"
       edu.harvard.fas.rc.customer: 'Aspuru-Guzik Group, CCB'
