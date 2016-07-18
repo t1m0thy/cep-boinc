@@ -80,7 +80,7 @@ services:
       dupes: /var/host/dupe_wcgrid_data
       clean: /var/host/cleaned_wcgrid_data
       processed_md5: /var/host/processed_md5
-      completed_md5: /var/host/completed_md5
+      completed_md5: /var/host/wcgrid_done_md5
       upload: /var/host/upload
       # this is the command passed to ./manage.py
 
@@ -95,7 +95,8 @@ services:
       # - /var/local/trash_wcgrid_data:$trash
 
       # EXPECTED ACTUAL PATHS on Prod
-      - /cep/wcgrid/output_cep2:/var/host/completed_md5 # $completed_md5
+      - /var/local/transfer/output_cep2:/var/host/wcgrid_done_md5 # $completed_md5
+      - /var/local/processed_md5:/var/host/processed_md5 # $processed_md5
       - /var/local/upload:/var/host/upload # $upload
       - /var/local/cleaned_wcgrid_data:/var/host/cleaned_wcgrid_data # $clean
       - /var/local/dupe_wcgrid_data:/var/host/dupe_wcgrid_data # $dupes
