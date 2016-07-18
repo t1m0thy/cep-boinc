@@ -21,7 +21,7 @@ services:
       - /var/local/upload:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
     expose:
-      - 443
+      - 80
   boinc2:
     depends_on:
       - boinc1
@@ -36,12 +36,11 @@ services:
       edu.harvard.fas.rc.type: "web"
       edu.harvard.fas.rc.database: "false"
       edu.harvard.fas.rc.ticket: "99999999"
-    #network_mode: host or bridge? not sure here
     volumes:
       - /var/local/upload:/var/www/upload
       - ./boinc_endpoint/25-cleanenergy.worldcommunitygrid.org.conf:/etc/httpd/conf.d/25-cleanenergy.worldcommunitygrid.org.conf
     expose:
-      - 443
+      - 80
   haproxy:
     image: haproxy:latest
     environment:
@@ -61,13 +60,12 @@ services:
       - ./boinc_endpoint/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - ./boinc_endpoint/cleanenergy.worldcommunitygrid.org.combined.pem:/opt/ssl/cleanenergy.worldcommunitygrid.org.combined.pem
     ports:
-      - 8443:443
-      - 8070:70
+      - 443:443
+      - 70:70
     expose:
-      - 88888888443
-      - 8070
+      - 443
+      - 70
 
-services:
   wcgrid_handler:
     build:
       context: wcgrid_handler/
@@ -83,7 +81,6 @@ services:
       completed_md5: /var/host/wcgrid_done_md5
       upload: /var/host/upload
       # this is the command passed to ./manage.py
-
 
     volumes:
       # I wanted this to work where I could use the env vars from above
@@ -101,5 +98,3 @@ services:
       - /var/local/cleaned_wcgrid_data:/var/host/cleaned_wcgrid_data # $clean
       - /var/local/dupe_wcgrid_data:/var/host/dupe_wcgrid_data # $dupes
       - /var/local/trash_wcgrid_data:/var/host/trash_wcgrid_data # $trash
-
-
