@@ -19,7 +19,9 @@ docker-compose -f docker-compose.yml \
 
 
 # now cold store everything
-rsync -av --remove-source-files /var/cleaned_wcgrid_data /n/aagfs01/cep/wu_batches/
+rsync -av --remove-source-files /var/local/cleaned_wcgrid_data /n/aagfs01/cep/wu_batches/
+rsync -av --remove-source-files /var/local/processed_md5 /n/aagfs01/cep/processed_md5/
+
 
 # clean up the unfinished and corrupt work units
 rm -r /var/local/trash_wcgrid_data/*
