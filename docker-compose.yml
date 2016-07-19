@@ -65,14 +65,10 @@ services:
     expose:
       - 443
       - 70
-
   sshd:
     image: fasrc/docker-alpine-sshd:latest
     ports:
-      - 2222:22
-    expose:
-      - 22
-
+      - "2222:22"
   wcgrid_handler:
     build:
       context: wcgrid_handler/
