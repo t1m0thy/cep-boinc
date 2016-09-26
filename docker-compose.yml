@@ -6,6 +6,8 @@ services:
       context: boinc_endpoint/
       dockerfile: "Dockerfile.boinc"
     image: "cep-boinc:latest"
+    hostname: "cleanenergy"
+    domainname: "worldcommunitygrid.org"
     environment:
       servername: "cleanenergy.worldcommunitygrid.org"
       error_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_error_ssl.log"
@@ -26,6 +28,8 @@ services:
     depends_on:
       - boinc1
     image: "cep-boinc:latest"
+    hostname: "cleanenergy"
+    domainname: "worldcommunitygrid.org"
     environment:
       servername: "cleanenergy.worldcommunitygrid.org"
       error_log: "/var/log/httpd/cleanenergy.worldcommunitygrid.org_error_ssl.log"
