@@ -8,6 +8,7 @@ function run_wcgrid_handler {
     -f docker-compose.$run_env.yml \
     -f docker-compose.wcgrid_handler.yml \
     run \
+    --rm \
     -e "DJANGO_COMMAND=$django_cmd" \
     wcgrid_handler
 } 
