@@ -1,22 +1,23 @@
+#!/bin/bash
+
 # period_task.sh
 # designed to be called by cron on the host 
 
 # WARNING: this script uses production settings!
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $DIR/wcgrid_handler_utils.sh
+
 # clean and sort the uploads data
-docker-compose -f docker-compose.yml \
-    -f docker-compose.prod.yml \
-    run \
-    -e "DJANGO_COMMAND=cleanwcgbatch $$completed_md5 --wus=$$upload --sorted_md5=$$processed_md5 --sorted_path=$$clean --dupes_path=$$dupes --trash_path=$$trash" \
-    wcgrid_handler 
+run_wcgrid_handler "prod" \
+  "cleanwcgbatch $$completed_md5 \
+  --wus=$$upload \
+  --sorted_md5=$$processed_md5 \
+  --sorted_path=$$clean \
+  --dupes_path=$$dupes \
+  --trash_path=$$trash"
 
-# parse the data
-docker-compose -f docker-compose.yml \
-    -f docker-compose.prod.yml \
-    run \
-    -e "DJANGO_COMMAND=parsewcgbatch $$clean" \
-    wcgrid_handler 
-
+run_wcgrid_handler "prod" "parsewcgbatch $$clean"
 
 # now cold store everything
 rsync -av --remove-source-files /var/cleaned_wcgrid_data /n/aagfs01/cep/wu_batches/
