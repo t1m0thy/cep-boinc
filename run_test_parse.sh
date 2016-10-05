@@ -1,37 +1,11 @@
-docker-compose -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=migrate" \
-    wcgrid_handler
+#!/bin/bash
 
-docker-compose -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=loaddata XQGVJSGVGSDDGA-UHFFFAOYSA-N" \
-    wcgrid_handler
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $DIR/wcgrid_handler_utils.sh
 
-docker-compose -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=scanconfigs ../chemconfigs/wcgrid -u" \
-    wcgrid_handler
-
-docker-compose -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=requestjobs test wcgrid" \
-    wcgrid_handler
-
-
-docker-compose -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=requestjobs test wcgrid" \
-    wcgrid_handler
-
-
-docker-compose -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=parsewcgbatch /root/a2g2/djangochem/wcgrid/test_data" \
-    wcgrid_handler 
+run_wcgrid_handler "test" "migrate"
+run_wcgrid_handler "test" "migrate"
+run_wcgrid_handler "test" "loaddata XQGVJSGVGSDDGA-UHFFFAOYSA-N"
+run_wcgrid_handler "test" "scanconfigs ../chemconfigs/wcgrid -u"
+run_wcgrid_handler "test" "requestjobs test wcgrid"
+run_wcgrid_handler "test" "parsewcgbatch /root/a2g2/djangochem/wcgrid/test_data"
