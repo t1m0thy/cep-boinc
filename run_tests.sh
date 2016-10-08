@@ -1,6 +1,6 @@
-docker-compose \
-    -f docker-compose.yml \
-    -f docker-compose.test.yml \
-    run \
-    -e "DJANGO_COMMAND=test" \
-    wcgrid_handler
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $DIR/wcgrid_handler_utils.sh
+
+run_wcgrid_handler "test" "test"
